@@ -1,0 +1,51 @@
+env:
+    # Domain for SCF. DNS for *.DOMAIN must point to a kube node's (not master)
+    # external IP address.
+    DOMAIN: 35.162.169.236.kubernauts.org
+    #### The UAA hostname is hardcoded to uaa.$DOMAIN, so shouldn't be
+    #### specified when deploying
+    # UAA host/port that SCF will talk to. If you have a custom UAA
+    # provide its host and port here.
+    UAA_HOST: uaa.35.162.169.236.kubernauts.org
+    UAA_PORT: 2793
+    #GARDEN_ROOTFS_DRIVER: overlay-xfs
+    #GARDEN_APPARMOR_PROFILE: ""
+sizing:
+    cc_uploader:
+        capabilities: ["ALL"]
+    nats:
+         capabilities: ["ALL"]
+    routing_api:
+        capabilities: ["ALL"]
+    router:
+        capabilities: ["ALL"]
+    diego_locket:
+        capabilities: ["ALL"]
+    diego_access:
+        capabilities: ["ALL"]
+    diego_brain:
+        capabilities: ["ALL"]
+    diego_api:
+        capabilities: ["ALL"]
+kube:
+    # The IP address assigned to the kube node pointed to by the domain.
+    #### the external_ip setting changed to accept a list of IPs, and was
+    #### renamed to external_ips
+    external_ips: ["10.0.1.103"]
+    storage_class:
+        # Make sure to change the value in here to whatever storage class you use
+        persistent: "gp2"
+        shared: "gp2"
+    # The registry the images will be fetched from. The values below should work for
+    # a default installation from the suse registry.
+    registry:
+      hostname: "registry.suse.com"
+      username: ""
+      password: ""
+    organization: "cap"
+    auth: rbac
+secrets:
+    # Password for user 'admin' in the cluster
+    CLUSTER_ADMIN_PASSWORD: password
+    # Password for SCF to authenticate with UAA
+    UAA_ADMIN_CLIENT_SECRET: password
